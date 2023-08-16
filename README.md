@@ -8,6 +8,11 @@ Internally, the crate uses a global static HashSet to store all the
 static strings, and return the reference to the string in the HashSet
 if the string has been staticized before.
 
+> [!NOTE]
+> With this crate, the staticized strings will leaked and the reference
+> is hold by the underlying `HashSet`. The `destaticize()` method can be
+> used to released the previously added strings.
+
 [![crates.io](https://img.shields.io/crates/v/static_str_ops.svg)](https://crates.io/crates/static_str_ops)
 [![Downloads](https://img.shields.io/crates/d/static_str_ops)](https://crates.io/crates/static_str_ops)
 [![Docs.rs](https://img.shields.io/docsrs/static_str_ops/latest)](https://docs.rs/static_str_ops/latest/static_str_ops/)
@@ -40,6 +45,18 @@ This create provides the following macros and functions:
   ```rust
   let s: &'static str = staticize(&String::from("hello world!"));
   assert!(is_staticized(s));
+  ```
+
+- `destaticize(s: &str) -> bool`
+
+  Remove a string from the HashSet. Return true if the string was present
+  and is successfully removed, false otherwise.
+
+  Examples:
+
+  ```rust
+  let s: &'static str = staticize(&String::from("hello world!"));
+  assert!(destaticize(s));
   ```
 
 - `static_concat!(s1: expr, s2: expr, ...) -> &'static str`

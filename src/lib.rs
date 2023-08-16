@@ -25,6 +25,10 @@
 //!
 //!   Check if a string has been staticized before.
 //!
+//! - `destaticize(s: &str) -> bool`
+//!
+//!   Remove a static string from the internal HashSet. Return `true` if was present.
+//!
 //! - `static_concat!(s1: expr, s2: expr, ...) -> &'static str`
 //!
 //!   Concatenate multiple strings into a static string. The arguments can
@@ -126,6 +130,20 @@ pub fn is_staticized(s: &str) -> bool {
     STATIC_STRINGS.lock().unwrap().contains(s)
 }
 
+/// Removes a static string from the internal set of static strings.
+///
+/// # Arguments
+///
+/// * `s` - A string slice that represents the static string to be removed.
+///
+/// # Returns
+///
+/// A boolean value indicating whether the static string was present.
+///
+pub fn destaticize(s: &str) -> bool {
+    STATIC_STRINGS.lock().unwrap().remove(s)
+}
+
 /// Concatenates the given string literals into a single static string slice.
 ///
 /// # Examples
@@ -173,6 +191,7 @@ macro_rules! static_format {
 }
 
 /// Internally used by `staticize_once!()`.
+#[doc(hidden)]
 #[macro_export]
 macro_rules! _staticize_once {
     ($gensym: ident, $expr: expr) => {{
@@ -242,6 +261,17 @@ mod tests {
         assert!(!is_staticized(s));
         let _ = staticize(s);
         assert!(is_staticized(s));
+    }
+
+    #[test]
+    fn test_destaticize() {
+        let s = "new hello world to be destaticized!";
+        assert!(!is_staticized(s));
+        let _ = staticize(s);
+        assert!(is_staticized(s));
+        assert!(destaticize(s));
+        println!("{:?}", STATIC_STRINGS.lock().unwrap());
+        assert!(!is_staticized(s));
     }
 
     #[test]
