@@ -6,8 +6,7 @@ description = "A package allows using static strings with non-trivial operations
 documentation = "https://docs.rs/static_str_ops"
 homepage = "https://github.com/unsafecoerce/static_str_ops"
 repository = "https://github.com/unsafecoerce/static_str_ops.git"
-license = "BSD-3"
-license-file = "LICENSE"
+license = "BSD-3-Clause"
 readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
