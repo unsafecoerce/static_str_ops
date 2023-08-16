@@ -1,6 +1,6 @@
 [package]
 name = "static_str_ops"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "A package allows using static strings with non-trivial operations, e.g., `concat!`, `format!`, `call_once`, and more."
 documentation = "https://docs.rs/static_str_ops"
