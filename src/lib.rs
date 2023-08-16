@@ -175,18 +175,16 @@ macro_rules! static_format {
 /// Internally used by `staticize_once!()`.
 #[macro_export]
 macro_rules! _staticize_once {
-    ($gensym: ident, $expr: expr) => {
-        {
-            use std::sync::Once;
+    ($gensym: ident, $expr: expr) => {{
+        use std::sync::Once;
 
-            static mut $gensym: &str = "";
-            static INIT: Once = Once::new();
-            INIT.call_once(|| unsafe {
-                $gensym = staticize($expr);
-            });
-            unsafe { $gensym }
-        }
-    };
+        static mut $gensym: &str = "";
+        static INIT: Once = Once::new();
+        INIT.call_once(|| unsafe {
+            $gensym = staticize($expr);
+        });
+        unsafe { $gensym }
+    }};
 }
 
 /// Macro to generate a unique identifier for a given expression, which can be used to create a static variable
