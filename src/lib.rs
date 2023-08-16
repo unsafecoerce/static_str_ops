@@ -65,7 +65,7 @@
 //!   When you call `make_string()` for multiple times, the body will be
 //!   guaranteed to be evaluated only once.
 
-#![feature(stmt_expr_attributes)]
+#![allow(non_upper_case_globals)]
 
 use std::collections::HashSet;
 use std::sync::Mutex;
@@ -176,7 +176,6 @@ macro_rules! static_format {
 #[macro_export]
 macro_rules! _staticize_once {
     ($gensym: ident, $expr: expr) => {
-        #[allow(non_upper_case_globals)]
         {
             use std::sync::Once;
 
