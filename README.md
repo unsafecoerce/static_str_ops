@@ -39,6 +39,7 @@ This create provides the following macros and functions:
 
   ```rust
   let s: &'static str = staticize(&String::from("hello world!"));
+  assert!(is_staticized(s));
   ```
 
 - `static_concat!(s1: expr, s2: expr, ...) -> &'static str`
