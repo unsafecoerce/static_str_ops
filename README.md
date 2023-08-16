@@ -24,6 +24,8 @@ This create provides the following macros and functions:
   before, return the reference to the string in the HashSet.
   This function is the most basic usage of this crate, e.g.,
 
+  Examples:
+
   ```rust
   use static_str_ops::staticize;
   let s: &'static str = staticize(&String::from("hello world!"));
@@ -33,11 +35,23 @@ This create provides the following macros and functions:
 
   Check if a string has been staticized before.
 
+  Examples:
+
+  ```rust
+  let s: &'static str = staticize(&String::from("hello world!"));
+  ```
+
 - `static_concat!(s1: expr, s2: expr, ...) -> &'static str`
 
   Concatenate multiple strings into a static string. The arguments can
   be either a string literal.
   Like `concat!()`, but returns a static string.
+
+  Examples:
+
+  ```rust
+  let hello_world: &'static str = static_concat!("Hello", ", ", "world!");
+  ```
 
 - `static_format!(s: expr, ...) -> &'static str`
 
@@ -45,10 +59,26 @@ This create provides the following macros and functions:
   the builtin macro `format!()` can accept.
   Like `format!()`, but returns a static string.
 
+  ```rust
+  let name = "John";
+  let age = 30;
+  let message = static_format!("My name is {} and I'm {} years old.", name, age);
+  ```
+
 - `staticize_once!(expr: expr) -> &'static str`
 
   Similar to staticize(), but the expr will be evaluated only once. Under
   the hood, `std::sync::Once` is used.
+
+  Examples:
+
+  ```rust
+  let s: &'static str = staticize_once!({
+      let s = "";  // can be some expensive computation
+      s
+  });
+  ```
+
   The function will be useful if you have a function that want to return
   a static string, while the generate logic is non-trivial, and you want
   this process only happen once, e.g.,
