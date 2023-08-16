@@ -8,6 +8,11 @@ Internally, the crate uses a global static HashSet to store all the
 static strings, and return the reference to the string in the HashSet
 if the string has been staticized before.
 
+[![crates.io](https://img.shields.io/crates/v/static_str_ops.svg)](https://crates.io/crates/static_str_ops)
+[![Downloads](https://img.shields.io/crates/d/static_str_ops)](https://crates.io/crates/static_str_ops)
+[![Docs.rs](https://img.shields.io/docsrs/static_str_ops/latest)](https://docs.rs/static_str_ops/latest/static_str_ops/)
+[![Github Actions](https://github.com/unsafecoerce/static_str_ops/actions/workflows/ci.yml/badge.svg)](https://github.com/unsafecoerce/static_str_ops/actions/workflows/ci.yml)
+
 APIs
 ----
 
