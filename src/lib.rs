@@ -104,8 +104,8 @@ lazy_static! {
 ///
 /// assert_eq!(static_s, "hello");
 /// ```
-pub fn staticize(s: &str) -> &'static str {
-    let s = Box::new(String::from(s));
+pub fn staticize<T: Into<String>>(s: T) -> &'static str {
+    let s: Box<String> = Box::new(s.into());
     let mut strings = STATIC_STRINGS.lock().unwrap();
     match strings.get(s.as_str()) {
         Some(s) => s,
@@ -186,7 +186,7 @@ macro_rules! static_concat {
 macro_rules! static_format {
     ()=>{""};
     ($($arg: expr),* $(,)?)=>(
-        $crate::staticize(&format!($($arg),*))
+        $crate::staticize(format!($($arg),*))
     );
 }
 
@@ -212,7 +212,7 @@ macro_rules! _staticize_once {
 ///
 /// # Arguments
 ///
-/// * `expr` - An expression of type `&str`.
+/// * `expr` - An expression of type `&str` or `String`.
 ///
 /// # Examples
 ///
@@ -222,7 +222,7 @@ macro_rules! _staticize_once {
 /// use static_str_ops::*;
 ///
 /// let s = "hello world";
-/// let static_str = staticize_once!(&s.to_uppercase());
+/// let static_str = staticize_once!(s.to_uppercase());
 /// assert_eq!(static_str, "HELLO WORLD");
 /// ```
 ///
@@ -251,7 +251,7 @@ mod tests {
         let s = staticize("world");
         assert_eq!(s, "world");
 
-        let s = staticize(&String::from("hello world!"));
+        let s = staticize(String::from("hello world!"));
         assert_eq!(s, "hello world!");
     }
 
